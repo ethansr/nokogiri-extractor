@@ -53,7 +53,7 @@ if image = document.at_css('img')
 end
 
 # can become:
-document.extract 'img', attr: :alt, regexp: /(\d*) kittens/)
+document.extract 'img', attr: :alt, regexp: /(\d*) kittens/
 ```
 
 More importantly, extract also accepts a block, allowing arbitrary
