@@ -1,8 +1,8 @@
-= nokogiri-extractor
+# nokogiri-extractor
 
 http://github.com/ethansr/nokogiri-extractor
 
-== DESCRIPTION:
+## DESCRIPTION:
 
 Decorates Nokogiri with methods to extract text from nodes and
 their attributes. 
@@ -25,23 +25,21 @@ to the required data which can succeed or fail as a unit, rather
 than writing a series of defensive conditional statements.
 
 ```ruby
-#this
-
+# this:
 if image = document.at_css('img')
   if alt_text = image[:alt]
     if image.match(/(\d*) kittens/)
-      return m[1]
+      return $1
     end
   end
 end
 
-#can become
-
+# can become:
 document.extract('img', :alt, /(\d*) kittens/))
-
 ```
-== SYNOPSIS:
+## SYNOPSIS:
 
+```ruby
   require 'nokogiri/extractor'
   doc = Nokogiri::XML.parse('<this is="cool">that</this>')
   doc.extractor!
@@ -53,29 +51,34 @@ document.extract('img', :alt, /(\d*) kittens/))
   doc.extract('this', regexp: /th(.*)/) # => 'at'
 
   doc.extract('this') {|text| text.upcase} #=> 'THAT'
+```
 
-== REQUIREMENTS:
+## REQUIREMENTS:
 
 * nokogiri
 * andand
 
-== INSTALL:
+## INSTALL:
 
-* rake install_gem
-* gem install nokogiri-extractor (Some Day).
+```bash
+$ rake install_gem
+# gem install nokogiri-extractor (Some Day).
+```
 
-== DEVELOPERS:
+## DEVELOPERS:
 
 Gem creation is handled by the hoe gem.
 
 After checking out the source, run:
 
+```bash
   $ rake newb
+```
 
 This task will install any missing dependencies, run the tests/specs,
 and generate the RDoc.
 
-== LICENSE:
+## LICENSE:
 
 (The MIT License)
 
