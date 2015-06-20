@@ -2,12 +2,30 @@
 
 http://github.com/ethansr/nokogiri-extractor
 
+## SYNOPSIS:
+
+```ruby
+  require 'nokogiri/extractor'
+  doc = Nokogiri::XML.parse('<this is="cool">that</this>')
+  doc.extractor!
+
+  doc.extract('this') # => 'that'
+
+  doc.extract('this', attr: :is) # => 'cool'
+
+  doc.extract('this', regexp: /th(.*)/) # => 'at'
+
+  doc.extract('this') {|text| text.upcase} #=> 'THAT'
+```
+
 ## DESCRIPTION:
 
-Decorates Nokogiri with methods to extract text from nodes and
-their attributes. 
+This gem provides decoraters that add methods to Nokogiri to
+extract text from a Node or NodeSet in a structured way. Using
+Nokogiri's decorator functions, this can be done without any
+monkey patching (although we do provide a convenience method).
 
-This gem handles a very common case in extracting information
+It handles a very common case in extracting information
 from structured documents where the required information is
 most easily acquired through the pattern of:
 
@@ -35,22 +53,20 @@ if image = document.at_css('img')
 end
 
 # can become:
-document.extract('img', :alt, /(\d*) kittens/))
+document.extract 'img', attr: :alt, regexp: /(\d*) kittens/)
 ```
-## SYNOPSIS:
+
+More importantly, extract also accepts a block, allowing arbitrary
+work to be done if the desired data is found.
 
 ```ruby
-  require 'nokogiri/extractor'
-  doc = Nokogiri::XML.parse('<this is="cool">that</this>')
-  doc.extractor!
+# Use whatever functions you need to do cleanup
+document.extract('a', attr: :href) {|link| URI.parse(link)}
 
-  doc.extract('this') # => 'that'
-
-  doc.extract('this', attr: :is) # => 'cool'
-
-  doc.extract('this', regexp: /th(.*)/) # => 'at'
-
-  doc.extract('this') {|text| text.upcase} #=> 'THAT'
+# Works with map
+document.search('a').map { |anchor|
+  anchor.extract('img', attr: :alt) { |alt_text| translate(alt_text)}
+}
 ```
 
 ## REQUIREMENTS:
