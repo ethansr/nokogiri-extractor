@@ -58,7 +58,8 @@ module Nokogiri
       #
       def process(item,options)
         result_text = (options[:attr] ? item[options[:attr]] : item.text)
-          .andand.match(options[:regexp]|| /(.*)/) {|m| result_text = m[1]}
+                      .andand.match(options[:regexp]|| /(.*)/) {|m| result_text = m[1]}
+
         result_text && block_given? ? yield(result_text, item) : result_text
       end
     end

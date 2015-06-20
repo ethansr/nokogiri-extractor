@@ -60,7 +60,8 @@ More importantly, extract also accepts a block, allowing arbitrary
 work to be done if the desired data is found.
 
 ```ruby
-# Use whatever functions you need to do cleanup
+# Use whatever functions you need to do cleanup, return value may 
+# whatever type you need.
 document.extract('a', attr: :href) {|link| URI.parse(link)}
 
 # Works with map
